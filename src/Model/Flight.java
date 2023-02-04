@@ -6,24 +6,60 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Flight {
-    
-    private LocalDate date;
+
+    private LocalDate departureDate; //  plane departure date
     private Airplane airplane; // the passenger has to choose an airplane
     private ECity departureCity; // departure time is when a plane leaves the gate
     private ECity arrivalCity; // arrival time is when the plane pulls up to the gate
-    private ArrayList<Integer> passengers = new ArrayList <>();
+    private ArrayList<Integer> passengers = new ArrayList<>();
     private Integer quantityPassengers;
-    private Integer fleetCapacity;
+    private Double totalFlight; // total cost of the flight 
 
-    public Flight (){
+    public Flight() {
+    }
+
+    public Flight(LocalDate departureDate, Airplane airplane, ECity departureCity, ECity arrivalCity) {
+        this.departureDate = departureDate;
+        this.airplane = airplane;
+        this.departureCity = departureCity;
+        this.arrivalCity = arrivalCity;
+        this.quantityPassengers = quantityPassengers;
+        this.totalFlight = totalFlight;
+        distances(); // load distances in km/h
     }
     
-    public LocalDate getDate() {
-        return date;
+    public Integer distances() {
+        Integer distance = 0; //km/h
+        ECity departure = departureCity;
+        ECity arrival = arrivalCity;
+        if ((departure == ECity.BSAS && arrival == ECity.CBA) || 
+                (departure == ECity.CBA && arrival == ECity.BSAS)) {
+            distance = 695;
+        } else if ((departure == ECity.BSAS && arrival == ECity.STGO) || 
+                (departure == ECity.STGO && arrival == ECity.BSAS)) {
+            distance = 1400;
+        } else if ((departure == ECity.BSAS && arrival == ECity.MONT) || 
+                (departure == ECity.MONT && arrival == ECity.BSAS)) {
+            distance = 950; 
+        } else if ((departure == ECity.CBA && arrival == ECity.MONT) || 
+                (departure == ECity.MONT && arrival == ECity.CBA)){
+            distance = 1190;
+        } else if ((departure == ECity.CBA && arrival == ECity.STGO) || 
+                (departure == ECity.STGO && arrival == ECity.CBA)){
+            distance = 1050;
+        } else if ((departure == ECity.MONT && arrival == ECity.STGO) || 
+                (departure == ECity.STGO && arrival == ECity.MONT)){
+            distance = 2100;
+        }
+        return distance;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public LocalDate getDepartureDate() {
+        return departureDate;
+    }
+
+    public void setDepartureDate(LocalDate departureDate) {
+        this.departureDate = departureDate;
     }
 
     public Airplane getAirplane() {
@@ -66,11 +102,12 @@ public class Flight {
         this.quantityPassengers = quantityPassengers;
     }
 
-    public Integer getFleetCapacity() {
-        return fleetCapacity;
+    public Double getTotalFlight() {
+        return totalFlight;
     }
 
-    public void setFleetCapacity(Integer fleetCapacity) {
-        this.fleetCapacity = fleetCapacity;
+    public void setTotalFlight(Double totalFlight) {
+        this.totalFlight = ((distances()*airplane.getCostPerKm())+ 
+        (getQuantityPassengers()*3500)+ airplane.getAirplaneRate()); // CHECK!
     }
 }

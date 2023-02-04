@@ -12,6 +12,7 @@ public abstract class Airplane {
    private EPropulsionType propulsionType; // types: reaction, propeller and piston
    private EAirplaneRate airplaneRate; // different rate due to airplane types 
    private EAirplaneRate fixedRate; // fixed rate for each passenger 
+   private ECity city;
 
     public Airplane() {
     }
@@ -90,6 +91,14 @@ public abstract class Airplane {
 
     public void setFixedRate(EAirplaneRate fixedRate) {
         this.fixedRate = fixedRate;
+    }
+
+    public ECity getCity() {
+        return city;
+    }
+
+    public void setCity(ECity city) {
+        this.city = city;
     }
 
     @Override
