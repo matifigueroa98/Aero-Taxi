@@ -1,23 +1,16 @@
 package Core;
 
+import DAO.*;
 import Model.*;
-import java.util.ArrayList;
 import java.util.Scanner;
 
-public class UserManagement {
+public class UserManagement  {
     
-    private ArrayList<User> users = new ArrayList<>();
+    private UserDAO userDAO;
     private final Scanner in = new Scanner(System.in);
 
     public UserManagement() {
-    }
-
-    public ArrayList<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(ArrayList<User> users) {
-        this.users = users;
+        this.userDAO = new UserDAO ();
     }
     
     public void admin(String username, String password) {
@@ -29,6 +22,23 @@ public class UserManagement {
         }
     }
     
+    public void adminMenu() {
+        System.out.println("ADMIN MENU.\n Press 1. To log in.\n 2. Create an admin");
+        Integer admin = in.nextInt();
+        switch (admin) {
+            case 1:
+                
+                break;
+            case 2:
+                
+                break;
+        }
+        System.out.print("Introduce your ID: ");
+        String id = in.next();
+        System.out.print("Introduce your password: ");
+        String pswd = in.next();
+    }
+    
     public User procedureUser (){
         String id;
         User user = null;
@@ -36,14 +46,14 @@ public class UserManagement {
         do {
             System.out.print("Introduce your ID: ");
             id = in.next();
-            user = findUser(id);
+            //user = findUser(id);
             if (user == null){ // Checking if the user exist
                 System.out.println("The user does not match in the system. Would you like to add a new one?");
                 System.out.println("Enter '1' if desired, '2' to start over");
                 Integer option  = in.nextInt();
                  switch (option) {
                 case 1:
-                    user = signIn();
+                    user = signUp();
                     break;
                 case 2:
                     break;
@@ -59,8 +69,7 @@ public class UserManagement {
         return user;
     }
     
-
-    public User signIn() { // creating an user
+    public User signUp() { // creating an user
         
         String name, lastName, id, pswd;
         Integer age;      
@@ -77,27 +86,13 @@ public class UserManagement {
         pswd = in.next();
 
         User user = new User(name, lastName, id, age, pswd, Boolean.FALSE);
-        users.add(user);
+        userDAO.save();
         return user;
     }
 
     public void userMenu() {
 
         
-    }
-
-    public void adminMenu() {
-        System.out.println("ADMIN MENU.\n Press 1. To log in.\n 2. Create an admin");
-        Integer admin = in.nextInt();
-        switch (admin){
-            case 1: 
-            case 2: 
-        }
-        System.out.print("Introduce your ID: ");
-        String id = in.next();
-        System.out.print("Introduce your password: ");
-        String pswd = in.next();
-
     }
 
     public User logIn(User user) { // user log in
@@ -114,23 +109,13 @@ public class UserManagement {
         return user;
     }
 
-    /*    System.out.print("Are you an admin? choose an option: 1. Yes \n2.No");
-        String admin = in.next();
-        switch (admin) {
-            case "1":
-                adminMenu(); // display menu for admin
-            case "2":
-                userMenu(); // display menu for USER
-        }
-    }*/
-
-    public User findUser(String id) { // find the user ID using toFind method
+    /*public User findUser(String id) { // find the user ID using toFind method
         User toFind = null;
-        for (int i = 0; i < users.size(); i++) {
+        for (int i = 0; i < userDAO.getAll(); i++) {
             if (users.get(i).getId().equals(id)) {
                 toFind = users.get(i);  
             }
         }
         return toFind;
-    }
+    }*/
 }

@@ -1,6 +1,5 @@
 package Model.Enums;
 
-
 public enum EAirplaneRate {
     
     BRONZE (3000),
@@ -12,5 +11,5 @@ public enum EAirplaneRate {
     
     private EAirplaneRate(Integer rate) {
         this.rate = rate;
-    }
+    } 
 }
