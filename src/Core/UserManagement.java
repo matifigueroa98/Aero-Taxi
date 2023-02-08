@@ -86,7 +86,7 @@ public class UserManagement  {
         pswd = in.next();
 
         User user = new User(name, lastName, id, age, pswd, Boolean.FALSE);
-        userDAO.save();
+        userDAO.save(user);
         return user;
     }
 
@@ -111,7 +111,7 @@ public class UserManagement  {
 
     /*public User findUser(String id) { // find the user ID using toFind method
         User toFind = null;
-        for (int i = 0; i < userDAO.getAll(); i++) {
+        for (int i = 0; i < userDAO.); i++) {
             if (users.get(i).getId().equals(id)) {
                 toFind = users.get(i);  
             }

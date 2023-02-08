@@ -16,7 +16,9 @@ public class Menu {
         
         menu = Integer.parseInt(JOptionPane.showInputDialog("Choose an option"));
         switch (menu) {
-            case 1: user.admin("admin", "admin123"); 
+            case 1: 
+                user.signUp();
+                break;
             case 2: user.procedureUser();
         }
     }
