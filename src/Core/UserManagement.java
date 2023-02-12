@@ -4,6 +4,7 @@ import DAO.*;
 import Model.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class UserManagement  {
     
@@ -15,7 +16,7 @@ public class UserManagement  {
     }
     
     public void admin(String username, String password) {
-        User admin = new User ("Matias", "Figueroa", "admin", 25, "admin123", Boolean.TRUE);
+      //  User admin = new User ("Matias", "Figueroa", "admin", 25, "admin123", Boolean.TRUE);
         if (username.equals("admin") && password.equals("admin123")) {
             System.out.println("Admin added successfully!");
         } else {
@@ -40,15 +41,31 @@ public class UserManagement  {
         String pswd = in.next();
     }
     
-    public User procedureUser (){
-        String id;
+    public void userMenu() {
+
+    }
+    
+    public User procedureUser() {
+        String username;
         User user = null;
 
         do {
-            System.out.print("Introduce your ID: ");
-            id = in.next();
-            //user = findUser(id);
-            if (user == null) { // Checking if the user exist
+            System.out.print("Introduce your username: ");
+            username = in.next();
+            user = userDAO.findByUsername(username);
+            if (user != null) { // Checking if the user exist
+                user = logIn(user);
+                System.out.println("What would you like to do?\nPress 1 if you want to modify your user");
+                System.out.println("Press 2 if you want to delete your user");
+                Integer s = in.nextInt();
+                switch (s) {
+                    case 1:
+                        modifyingUser();
+                        break;
+                    case 2: deleteUser();
+                        break;
+                }
+            } else {
                 System.out.println("The user does not match in the system. Would you like to add a new one?");
                 System.out.println("Enter '1' if desired, '2' to start over");
                 Integer option = in.nextInt();
@@ -56,42 +73,48 @@ public class UserManagement  {
                     case 1:
                         signUp();
                         break;
-                    case 2:
+                    case 2: 
                         break;
                     default:
                         System.out.println("Invalid option. Please try again.");
                         break;
                 }
-            } else {
-                user = logIn(user);
             }
         } while (user == null);
         return user;
     }
     
     public void signUp() { // creating an user
-
-        String name, lastName, id, pswd;
+        String name, lastName, username, pswd;
         Integer age;
+        Scanner input = new Scanner (System.in);
 
         System.out.print("Introduce your name: ");
-        name = in.next();
+        name = input.nextLine();
         System.out.print("Introduce your last name: ");
-        lastName = in.next();
-        System.out.print("Introduce your ID: ");
-        id = in.next();
+        lastName = input.nextLine();
+        System.out.print("Introduce your username: ");
+        username = input.nextLine();
+        User userExists = userDAO.findByUsername(username);
+        while (userExists != null) {
+            System.out.println("The username " + username + " already exists. Please try again!");
+            System.out.print("Introduce your username: ");
+            username = input.nextLine();
+            userExists = userDAO.findByUsername(username);
+        }
         System.out.print("Introduce your age: ");
-        age = in.nextInt();
+        age = integerValidator();
+        while (age < 0) {
+            System.out.println("Age must be a positive number.");
+            System.out.print("Introduce your age: ");
+            age = integerValidator();
+        }
         System.out.print("Introduce your password: ");
-        pswd = in.next();
-
-        User user = new User(name, lastName, id, age, pswd, Boolean.FALSE);
+        pswd = input.nextLine();
+        String id = UUID.randomUUID().toString(); // unique ID
+        User user = new User(name, lastName, username, id, age, pswd, Boolean.FALSE);
         userDAO.save(user);
-        System.out.println("User added successfully!");
-    }
-
-    public void userMenu() {
-
+        System.out.println("User: " + username + " added successfully!");
     }
 
     public User logIn(User user) { // user log in
@@ -100,32 +123,51 @@ public class UserManagement  {
         String enteredPswd = in.next();
 
         if (user.getPassword().equals(enteredPswd)) {
-            System.out.println("Login successful!\n " + "Welcome back, " + user.getLastName() + ", " + user.getName());
+            System.out.println("Login successful!\n " + "Welcome back: " + user.getLastName() + ", " + user.getName());
         } else {
-            System.out.println("Login failed. Please try again.");
-            user = null;
+            System.out.println("Login failed. Forgot your password? (y/n)");
+            String option = in.next();
+            if (option.equals("y")) {
+                resetPassword();
+            } else {
+                System.out.println("Login failed. Please try again.");
+                user = null;
+            }
         }
         return user;
     }
+    
+    public void resetPassword() {
+        Scanner pass = new Scanner (System.in);
+        
+        System.out.println("please re-enter your username: ");
+        String username = pass.nextLine();
+        System.out.println("Enter a new password: ");
+        String newPassword = pass.nextLine();
+        userDAO.updatePassword(username, newPassword);
+        System.out.println("Password reset successful!");
+    }
 
     public void deleteUser() {
-        String id;
-        System.out.print("Enter the ID of the user you want to delete: ");
-        id = in.next();
-        Boolean deleteUser = userDAO.delete(id);
+        String username;
+        
+        System.out.print("Enter the username of the user you want to delete: ");
+        username = in.next();
+        Boolean deleteUser = userDAO.delete(username);
         if (deleteUser) {
-            System.out.println("The user with ID " + id + " has been deleted successfully.");
+            System.out.println("The username " + username + " has been deleted successfully.");
         } else {
-            System.out.println("The user with ID " + id + " could not be found.");
+            System.out.println("The username " + username + " could not be found.");
         }
     }
 
     public void modifyingUser() {
-        String id, name, lastName, password;
+        String username, name, lastName, password;
         Integer age;
-        System.out.print("Enter the ID of the user you want to modify: ");
-        id = in.next();
-        User user = userDAO.findByID(id);
+        
+        System.out.print("Enter the username of the user you want to modify: ");
+        username = in.next();
+        User user = userDAO.findByUsername(username);
         if (user != null) {
             System.out.print("Enter the new name: ");
             name = in.next();
@@ -133,24 +175,30 @@ public class UserManagement  {
             lastName = in.next();
             System.out.print("Enter the new password: ");
             password = in.next();
-            age = getAgeInput();
-            userDAO.update(id, name, lastName, password, age);
-            System.out.println("User ID: " + id + " information has been successfully updated!");
-            System.out.println("Would you like to change the id?\n1.YES \n2.NO");
+            System.out.print("Enter the new age: ");
+            age = integerValidator();
+
+            Boolean updateUser = userDAO.update(username, name, lastName, password, age);
+            if (updateUser) {
+                System.out.println("Username: " + username + " information has been successfully updated!");
+            } else {
+                System.out.println("An error occurred while trying to modify the user.");
+            }
+            System.out.println("Would you like to change the username?\n1.YES \n2.NO");
             Integer option = in.nextInt();
             switch (option) {
                 case 1:
                     Boolean valid = false;
                     while (!valid) {
-                        System.out.print("Enter the new ID User: ");
-                        String newID = in.next();
-                        if (!newID.equals(id) && !userDAO.isIdExist(newID)) { // check if the ID is not repeatead
-                            userDAO.updateID(id, newID); // updating ID
-                            System.out.println("The ID was successfully updated.");
+                        System.out.print("Enter the new username: ");
+                        String newUsername = in.next();
+                        if (!newUsername.equals(username) && !userDAO.userExists(newUsername)) { // check if the username is not repeatead
+                            userDAO.updateUsername(username, newUsername); // updating username
+                            System.out.println("The username was successfully updated.");
                             valid = true;
                         } else {
-                            System.out.println("ERROR! The new ID entered is either the same as the old ID or already exists."
-                                    + "Please enter a unique ID.");
+                            System.out.println("ERROR! The new username entered is either the same "
+                                    + "as the old username or already exists.");
                         }
                     }
                     break;
@@ -162,7 +210,7 @@ public class UserManagement  {
                     break;
             }
         } else {
-            System.out.println("The ID entered is incorrect or the user does not exist.");
+            System.out.println("The username entered is incorrect or the user does not exist.");
             System.out.println("Select the operation you want to perform:\n1.Create an user. \n2.Cancel");
             Integer option = in.nextInt();
             switch (option) {
@@ -173,19 +221,19 @@ public class UserManagement  {
         }
     }
 
-    private Integer getAgeInput() { // to handle the age input
-        boolean validInput = false;
-        Integer age = null;
+    private Integer integerValidator() { // validating integer
+        Boolean validInput = false;
+        Integer number = null;
+
         while (!validInput) {
             try {
-                System.out.print("Enter the new age: ");
-                age = in.nextInt();
+                number = in.nextInt();
                 validInput = true;
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Please enter a number for the age.");
+                System.out.println("Invalid input. Please enter a number.");
                 in.next(); // Clear the buffer
             }
         }
-        return age;
+        return number;
     }
 }

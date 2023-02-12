@@ -27,8 +27,8 @@ public class UserDAO implements IRepository {
 
     @Override
     public void save(User user) {
+        retrieveData();
         try {
-            retrieveData();
             users.add(user);
             objMapper.writeValue(file, users); // object to JSON in file
         } catch (IOException e) {
@@ -42,89 +42,103 @@ public class UserDAO implements IRepository {
     }
 
     @Override
-    public void update(String id, String name, String lastName, String password, Integer age) {
+    public Boolean update(String username, String name, String lastName, String password, Integer age) {
         retrieveData();
-        User updateUser = findByID(id);
-        updateUser.setName(name);
-        updateUser.setLastName(lastName);
-        updateUser.setPassword(password);
-        updateUser.setAge(age);
-        try {
-            objMapper.writeValue(file, users); // the list is saved back to the file
-        } catch (IOException e) {
-            e.printStackTrace();
+        User updateUser = findByUsername(username);
+        Boolean success = false;
+        if (updateUser != null) {
+            updateUser.setName(name);
+            updateUser.setLastName(lastName);
+            updateUser.setPassword(password);
+            updateUser.setAge(age);
+            success = true;
+            try {
+                objMapper.writeValue(file, users); // the list is saved back to the file
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        return success;
     }
     
-    public void updateID(String oldId, String newId) {
+    public Boolean updatePassword(String username, String password) {
         retrieveData();
-        User updateUser = findByID(oldId);
+        User updateUser = findByUsername(username);
+        Boolean success = false;
         if (updateUser != null) {
-            updateUser.setId(newId);
+            updateUser.setPassword(password);
+            success = true;
             try {
-                objMapper.writeValue(file, users); // the ID is saved back to the file and updated
+                objMapper.writeValue(file, users); // the password is saved back to the file
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return success;
+    }
+    
+    public void updateUsername(String oldUsername, String newUsername) {
+        retrieveData();
+        User updateUser = findByUsername(oldUsername);
+        if (updateUser != null) {
+            updateUser.setUsername(newUsername);
+            try {
+                objMapper.writeValue(file, users); // the username is saved back to the file and updated
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public Boolean isIdExist(String id) {
+    public Boolean userExists (String username) { // method to know if the username is in the database
+        Boolean flag = false;
     for (User user : users) {
-        if (user.getId().equals(id)) {
-            return true;
+        if (user.getUsername().equals(username)) {
+            flag = true;
         }
     }
-    return false;
+        return flag;
 }
 
     @Override
-    public Boolean delete(String id) {
+    public Boolean delete(String username) {
         retrieveData();
+        User updateUser = findByUsername(username);
         Boolean success = false;
-        for (User user : users) {
-            if (user.getId().equals(id)) {
-                users.remove(user);
-                success = true;
-                try {
-                    objMapper.writeValue(file, users); // the list is saved back to the file
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        if (updateUser != null) {
+            users.remove(updateUser);
+            success = true;
+            try {
+                objMapper.writeValue(file, users);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         return success;
     }
 
     @Override
-    public User findByID(String id) {
+    public User findByUsername(String username) {
         retrieveData();
         User toFind = null;
         for (User user : users) {
-            if (user.getId().equals(id)) {
+            if (user.getUsername().equals(username)) {
                 toFind = user;
             }
         }
         return toFind;
     }
 
-    private void retrieveData() { // Uploading and reading the users.json file
-        if (file.exists()) {
-            try {
-                /*The readValue reads JSON data and map it to a list of User objects stored in the users attribute. 
+    private void retrieveData() { // Uploading and reading the users.json file 
+        try {
+            /*The readValue reads JSON data and map it to a list of User objects stored in the users attribute. 
         The TypeReference specifies the type of the Java object to be created from the JSON data.*/
+            if (file.exists()) {
                 users = objMapper.readValue(file, new TypeReference<ArrayList<User>>() {
                 });
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-        } else {
-            try {
-                file.createNewFile();
-                objMapper.writeValue(file, users);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

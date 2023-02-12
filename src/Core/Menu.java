@@ -19,7 +19,7 @@ public class Menu {
             case 1: 
                 user.signUp();
                 break;
-            case 2: user.modifyingUser();
+            case 2: user.procedureUser();
             break;
         }
     }

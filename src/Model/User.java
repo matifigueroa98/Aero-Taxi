@@ -1,24 +1,28 @@
 package Model;
 
+import java.util.UUID;
+
 public class User {
     
     private String name;
     private String lastName;
-    private String id; // Identification for the login ID, works as a username
+    private String username; // Identification for the login ID
+    private String id; // works as a unique identifier for the system
     private Integer age;
     private String password;
-    private Boolean admin;
+    private Boolean isAdmin;
     
     public User (){
     }
 
-    public User(String name, String lastName, String id, Integer age, String password, Boolean admin) {
+    public User(String name, String lastName, String username, String id, Integer age, String password, Boolean admin) {
         this.name = name;
         this.lastName = lastName;
-        this.id = id;
+        this.username = username;
+        this.id = UUID.randomUUID().toString();
         this.age = age;
         this.password = password;
-        this.admin = false;
+        this.isAdmin = false;
     }
 
     public String getName() {
@@ -37,11 +41,19 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
     public String getId() {
         return id;
     }
-
-    public void setId(String id) {
+    
+    public void setId (String id){
         this.id = id;
     }
 
@@ -61,16 +73,17 @@ public class User {
         this.password = password;
     }
 
-    public Boolean getAdmin() {
-        return admin;
+    public Boolean getIsAdmin() {
+        return isAdmin;
     }
 
-    public void setAdmin(Boolean admin) {
-        this.admin = admin;
+    public void setIsAdmin(Boolean admin) {
+        this.isAdmin = isAdmin;
     }
 
     @Override
     public String toString() {
-        return "Name: " + name + ", Last name: " + lastName + ", ID: " + id + ", Age: " + age;
+        return "Name: " + name + "\nLast name: " + lastName + "\nUsername: " + username + "\nID: " + id
+                + "\nage: " + age + "\nPassword: " + password + "\nAdmin: " + isAdmin;
     }
 }
