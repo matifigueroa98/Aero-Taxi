@@ -9,7 +9,7 @@ public class Menu {
                                           Welcome to the AeroTaxi Company! What would you like to do? 
                                           
                                           1. Create an user
-                                          2. Log in
+                                          2. TEST
                                    """);
         
         UserManagement user = new UserManagement (); // TEST PURPOSE
@@ -19,7 +19,8 @@ public class Menu {
             case 1: 
                 user.signUp();
                 break;
-            case 2: user.procedureUser();
+            case 2: user.modifyingUser();
+            break;
         }
     }
 }
