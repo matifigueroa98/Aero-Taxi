@@ -109,4 +109,11 @@ public class Flight {
     public void setTotalFlight(Double totalFlight) {
         this.totalFlight = totalFlight;
     }
+
+    @Override
+    public String toString() {
+        return "Flight data:\n" + "Departure Date = " + departureDate + "\nAirplane = " + airplane + 
+                "\nDeparture City = " + departureCity + "\nArrival City = " + arrivalCity + "\nPassengers = " + 
+                passengers + "\nQuantity Passengers = " + quantityPassengers + "\nTotal Flight = " + totalFlight;
+    }
 }

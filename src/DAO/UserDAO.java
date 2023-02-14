@@ -17,20 +17,12 @@ public class UserDAO implements IRepository {
     public UserDAO() {
     }
 
-    public ArrayList<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(ArrayList<User> users) {
-        this.users = users;
-    }
-
     @Override
     public void save(User user) {
         retrieveData();
         try {
             users.add(user);
-            objMapper.writeValue(file, users); // object to JSON in file
+            objMapper.writeValue(file, users); // save user to json file
         } catch (IOException e) {
             e.printStackTrace();
         }
