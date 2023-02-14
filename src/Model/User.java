@@ -10,19 +10,19 @@ public class User {
     private String id; // works as a unique identifier for the system
     private Integer age;
     private String password;
-    private Boolean isAdmin;
+    private boolean isAdmin; // primitive data is placed because otherwise the library is broken
     
     public User (){
     }
 
-    public User(String name, String lastName, String username, String id, Integer age, String password, Boolean admin) {
+    public User(String name, String lastName, String username, String id, Integer age, String password, Boolean isAdmin) {
         this.name = name;
         this.lastName = lastName;
         this.username = username;
         this.id = UUID.randomUUID().toString();
         this.age = age;
         this.password = password;
-        this.isAdmin = false;
+        this.isAdmin = isAdmin;
     }
 
     public String getName() {
@@ -73,17 +73,17 @@ public class User {
         this.password = password;
     }
 
-    public Boolean getIsAdmin() {
+    public boolean getIsAdmin() {
         return isAdmin;
     }
 
-    public void setIsAdmin(Boolean admin) {
+    public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
 
     @Override
     public String toString() {
         return "Name: " + name + "\nLast name: " + lastName + "\nUsername: " + username + "\nID: " + id
-                + "\nage: " + age + "\nPassword: " + password + "\nAdmin: " + isAdmin;
+                + "\nAge: "+ age+ "\nAdmin: " + isAdmin+"\n----------------------------------";
     }
 }

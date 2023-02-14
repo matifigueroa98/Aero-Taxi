@@ -37,8 +37,12 @@ public class UserDAO implements IRepository {
     }
 
     @Override
-    public void findAll() {
-
+    public ArrayList<User> findAll() {
+        retrieveData();
+        for (User user : users) {
+            System.out.println(user.toString());
+        }
+        return users;
     }
 
     @Override
@@ -51,6 +55,12 @@ public class UserDAO implements IRepository {
             updateUser.setLastName(lastName);
             updateUser.setPassword(password);
             updateUser.setAge(age);
+
+            if (updateUser.getIsAdmin()) { // checking user rol 
+                updateUser.setIsAdmin(true);
+            } else {
+                updateUser.setIsAdmin(false);
+            }
             success = true;
             try {
                 objMapper.writeValue(file, users); // the list is saved back to the file
