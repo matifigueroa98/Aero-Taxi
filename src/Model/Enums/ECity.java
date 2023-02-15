@@ -12,4 +12,8 @@ public enum ECity {
     private ECity(String city) {
         this.city = city;
     }  
+    
+    public String getCity() {
+        return city;
+    }
 }

@@ -11,11 +11,13 @@ public class Menu {
                                           
                                           1. Log in
                                           2. Create an user
-                                          3. EXIT
+                                          3. TEST
+                                          4. EXIT
                                           
                                    """);
 
         UserManagement manage = new UserManagement(); // TEST PURPOSE
+        AeroTaxi test = new AeroTaxi (); // TEST PURPOSE
 
         menu = Integer.parseInt(JOptionPane.showInputDialog("Choose an option"));
         switch (menu) {
@@ -24,6 +26,9 @@ public class Menu {
                 break;
             case 2:
                 manage.signUp();
+                break;
+            case 3:
+                test.newFlight();
                 break;
         }
     }
