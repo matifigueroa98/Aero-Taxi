@@ -12,4 +12,8 @@ public enum EPropulsionType {
     private EPropulsionType(String engineType) {
         this.engineType = engineType;
     }
+
+    public String getEngineType() {
+        return engineType;
+    }
 }

@@ -25,33 +25,6 @@ public class Flight {
         this.arrivalCity = arrivalCity;
         this.quantityPassengers = quantityPassengers;
         this.totalFlight = totalFlight;
-        distances(); // load distances in km/h
-    }
-    
-    public Integer distances() {
-        Integer distance = 0; //km/h
-        ECity departure = departureCity;
-        ECity arrival = arrivalCity;
-        if ((departure == ECity.BSAS && arrival == ECity.CBA) || 
-                (departure == ECity.CBA && arrival == ECity.BSAS)) {
-            distance = 695;
-        } else if ((departure == ECity.BSAS && arrival == ECity.STGO) || 
-                (departure == ECity.STGO && arrival == ECity.BSAS)) {
-            distance = 1400;
-        } else if ((departure == ECity.BSAS && arrival == ECity.MONT) || 
-                (departure == ECity.MONT && arrival == ECity.BSAS)) {
-            distance = 950; 
-        } else if ((departure == ECity.CBA && arrival == ECity.MONT) || 
-                (departure == ECity.MONT && arrival == ECity.CBA)){
-            distance = 1190;
-        } else if ((departure == ECity.CBA && arrival == ECity.STGO) || 
-                (departure == ECity.STGO && arrival == ECity.CBA)){
-            distance = 1050;
-        } else if ((departure == ECity.MONT && arrival == ECity.STGO) || 
-                (departure == ECity.STGO && arrival == ECity.MONT)){
-            distance = 2100;
-        }
-        return distance;
     }
 
     public LocalDate getDepartureDate() {

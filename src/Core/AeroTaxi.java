@@ -1,6 +1,7 @@
 package Core;
 
 import DAO.FlightDAO;
+import Model.Enums.EAirplaneRate;
 import Model.Enums.ECity;
 import Model.Flight;
 import java.time.LocalDate;
@@ -18,32 +19,69 @@ public class AeroTaxi {
         this.flightDAO = new FlightDAO ();
     }
 
-    public void newFlight() { // To book a new flight, the user must complete a questionnaire
-//        String date;
-//        Integer passengersNumber;
-//        System.out.println("Indicate the appropriate date to make a flight (dd/mm/yyyy)");
-//        date = in.next();
-//        System.out.println(date);
-//        LocalDate departureDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/mm/yyyy"));
-
-        // User has to choose the cities of departure and arrival.
-        ECity departure = departureCity();
-        ECity arrival = arrivalCity();
+    public void newFlight() { // STEPS to book a new flight
+        LocalDate departureDate; // indicate desired date
+        ECity departure, arrival; // User has to choose the cities of departure and arrival
+        Integer passengers; // user indicate number of passengers 
+        Integer distance; // total flight distance
         
+        departureDate = pickDate();
+        departure = departureCity();
+        arrival = arrivalCity();
+
         while (departure == arrival) { // validation so that the user doesn't choose the same destinations
             System.out.println("ERROR: You cannot select the same city as departure and arrival!\n");
-            System.out.println("Choose the city of DEPARTURE:\n");
-            departure = pickDestination();
-            System.out.println("Choose the city of ARRIVAL:\n");
-            arrival = pickDestination();
+            departure = departureCity();
+            arrival = arrivalCity();
+            distance = distances(departure, arrival); // calculate the distance between both destinations
+            System.out.println("The distance between " + departure.getCity() + " and " + arrival.getCity() + " is " + distance + " km.");
         }
+
+        passengers = numberPassengers();
+        System.out.print("Choose an airplane: ");
+//         options
+//         last step: show cost of total flight and the user must confirm to generate the flight
+      //  Flight flight = new Flight (departureDate, airplane, departure, arrival);  
+    }
+    
+    public Integer numberPassengers() { // validating passengers
+        Integer passengersNumber = null;
+        Boolean validation = false;
+
+        while (!validation) {
+            try {
+                System.out.print("Enter the number of passengers that will go on the flight: ");
+                passengersNumber = in.nextInt();
+                if (passengersNumber <= 0) {
+                    System.out.println("Invalid input. The number of passengers must be positive.");
+                } else {
+                    validation = true;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number!");
+                in.nextLine(); // consume the invalid input
+            }
+        }
+        return passengersNumber;
+    }
+    
+    public LocalDate pickDate() { // The user has to choose a date respecting the validations of the system
+        LocalDate departureDate = null;
         
-//        System.out.print("Enter the number of passengers that will go on the flight: ");
-//        passengersNumber = in.nextInt();
-//        System.out.print("Choose an airplane: ");
-        // options
-        // last step: show cost of total flight and the user must confirm to generate the flight
-        // Flight flight = new Flight (departureDate, airplane, ECity.BSAS, ECity.BSAS); IMPROVE 
+        System.out.println("Indicate the date (dd/mm/yyyy) you want to make the FLIGHT: ");
+        while (departureDate == null || departureDate.isBefore(LocalDate.now())) {
+            try {
+                String date = in.next();
+                departureDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                if (departureDate.isBefore(LocalDate.now())) {
+                    System.out.println("You cannot select a date in the past. Please enter a future date.");
+                }
+            } catch (java.time.format.DateTimeParseException e) {
+                System.out.println("The date was not entered correctly.");
+            }
+        }
+        System.out.println("You have selected the date: " + departureDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        return departureDate;
     }
     
     public ECity pickDestination() {
@@ -82,6 +120,30 @@ public class AeroTaxi {
         
         return arrival;
     }
+    
+    public Integer distances (ECity departure, ECity arrival) {
+        Integer distance = 0; //km/h
+        if ((departure == ECity.BSAS && arrival == ECity.CBA) || 
+                (departure == ECity.CBA && arrival == ECity.BSAS)) {
+            distance = 695;
+        } else if ((departure == ECity.BSAS && arrival == ECity.STGO) || 
+                (departure == ECity.STGO && arrival == ECity.BSAS)) {
+            distance = 1400;
+        } else if ((departure == ECity.BSAS && arrival == ECity.MONT) || 
+                (departure == ECity.MONT && arrival == ECity.BSAS)) {
+            distance = 950; 
+        } else if ((departure == ECity.CBA && arrival == ECity.MONT) || 
+                (departure == ECity.MONT && arrival == ECity.CBA)){
+            distance = 1190;
+        } else if ((departure == ECity.CBA && arrival == ECity.STGO) || 
+                (departure == ECity.STGO && arrival == ECity.CBA)){
+            distance = 1050;
+        } else if ((departure == ECity.MONT && arrival == ECity.STGO) || 
+                (departure == ECity.STGO && arrival == ECity.MONT)){
+            distance = 2100;
+        }
+        return distance;
+    }
 
     public void buyFlight (){
 
@@ -95,8 +157,11 @@ public class AeroTaxi {
         
     }
     
-    /*public Double totalFlight (){
-      /* distances (metodo en flight)*costokm + cantpassengers * 3500 + fixed rate
-       return ;
+    /*public Double totalFlight (){ // MODIFICAR
+        EAirplaneRate fixedRate = null;
+       
+       Double costFlight = (numberPassengers() * 3500) + fixedRate.getRate(); // DEPENDE EL AVION QUE ELIJA DEBO HACER LA CUENTA
+       //distances (metodo en flight)*costokm + cantpassengers * 3500 + fixed rate
+       return costFlight;
      }*/
 }
