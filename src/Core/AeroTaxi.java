@@ -1,9 +1,14 @@
 package Core;
 
+import DAO.AirplaneDAO;
 import DAO.FlightDAO;
+import Model.Airplanes.Airplane;
+import Model.Airplanes.BronzeFleet;
+import Model.Airplanes.GoldFleet;
+import Model.Airplanes.SilverFleet;
 import Model.Enums.EAirplaneRate;
 import Model.Enums.ECity;
-import Model.Flight;
+import Model.Enums.EPropulsionType;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
@@ -13,17 +18,20 @@ public class AeroTaxi {
     
     // the AeroTaxi Company has 3 different types of planes (gold, silver and bronze)
     private FlightDAO flightDAO;
+    private AirplaneDAO airplaneDAO;
     private final Scanner in = new Scanner(System.in);
     
     public AeroTaxi (){
         this.flightDAO = new FlightDAO ();
+        this.airplaneDAO = new AirplaneDAO ();
     }
 
     public void newFlight() { // STEPS to book a new flight
         LocalDate departureDate; // indicate desired date
         ECity departure, arrival; // User has to choose the cities of departure and arrival
-        Integer passengers; // user indicate number of passengers 
+        Integer passengers; // User indicate number of passengers 
         Integer distance; // total flight distance
+        Airplane airplane; // User has to choose an airplane
         
         departureDate = pickDate();
         departure = departureCity();
@@ -36,12 +44,40 @@ public class AeroTaxi {
             distance = distances(departure, arrival); // calculate the distance between both destinations
             System.out.println("The distance between " + departure.getCity() + " and " + arrival.getCity() + " is " + distance + " km.");
         }
-
+        airplane = pickAirplane();
         passengers = numberPassengers();
-        System.out.print("Choose an airplane: ");
-//         options
+        
+//         
 //         last step: show cost of total flight and the user must confirm to generate the flight
       //  Flight flight = new Flight (departureDate, airplane, departure, arrival);  
+    }
+    
+    public Airplane pickAirplane() {
+        String airplaneType;
+        Airplane airplane = null;
+        
+        while (airplane == null) {
+            System.out.print("Please type and select 'bronze', 'silver', or 'gold' to choose an airplane: ");
+            airplaneType = in.nextLine();
+            if (!airplaneType.equals("bronze") && !airplaneType.equals("silver") && !airplaneType.equals("gold")) {
+                System.out.println("Invalid airplane type. Please choose 'bronze', 'silver', or 'gold'.");
+            } else {
+                switch (airplaneType) { // TESTINGGGGGGGGGGGGGGGGGGGGG
+                    case "bronze": // como calculo el total del vuelo si tengo la info aca en el switch?
+                        airplane = new BronzeFleet("Bronze", 10000.00, 150.00, 0, 700.00,
+                        EPropulsionType.REACTION, EAirplaneRate.BRONZE, EAirplaneRate.AIRPLANE);
+                        airplaneDAO.save(airplane);
+                        break;
+                    case "silver":
+                        airplane = new SilverFleet();
+                        break;
+                    case "gold":
+                        airplane = new GoldFleet();
+                        break;            
+                }
+            }
+        }
+        return airplane;
     }
     
     public Integer numberPassengers() { // validating passengers
@@ -145,7 +181,7 @@ public class AeroTaxi {
         return distance;
     }
 
-    public void buyFlight (){
+    public void confirmFlight (){
 
     }
     

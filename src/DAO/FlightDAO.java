@@ -70,5 +70,4 @@ public class FlightDAO implements IRepositoryFlight {
             e.printStackTrace();
         }
     }
-    
 }
