@@ -3,29 +3,51 @@ package Model;
 import Model.Enums.*;
 import Model.Airplanes.Airplane;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.UUID;
 
 public class Flight {
 
+    private UUID uuid;
+    private long id;
     private LocalDate departureDate; //  plane departure date
     private Airplane airplane; // the passenger has to choose an airplane
     private ECity departureCity; // departure time is when a plane leaves the gate
     private ECity arrivalCity; // arrival time is when the plane pulls up to the gate
-    private ArrayList<User> passengers = new ArrayList<>();
-    private Integer quantityPassengers;
-    private Double totalFlight; // total cost of the flight 
+//    private User user;
+    private Integer passengers;
+//    private Double totalFlight; // total cost of the flight 
 
     public Flight() {
     }
 
-    public Flight(LocalDate departureDate, Airplane airplane, ECity departureCity, ECity arrivalCity) {
+    public Flight(LocalDate departureDate, Airplane airplane, ECity departureCity, ECity arrivalCity, 
+             Integer passengers) {
+        this.uuid = UUID.randomUUID();
+        this.id = uuid.getMostSignificantBits();
         this.departureDate = departureDate;
         this.airplane = airplane;
         this.departureCity = departureCity;
         this.arrivalCity = arrivalCity;
-        this.quantityPassengers = quantityPassengers;
-        this.totalFlight = totalFlight;
+       // this.user = user;
+        this.passengers = passengers;
+      //  this.totalFlight = totalFlight;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     public LocalDate getDepartureDate() {
         return departureDate;
@@ -59,34 +81,27 @@ public class Flight {
         this.arrivalCity = arrivalCity;
     }
 
-    public ArrayList<User> getPassengers() {
+    public Integer getPassengers() {
         return passengers;
     }
 
-    public void setPassengers(ArrayList<User> passengers) {
+    public void setPassengers(Integer passengers) {
         this.passengers = passengers;
     }
 
-    public Integer getQuantityPassengers() {
-        return quantityPassengers;
-    }
-
-    public void setQuantityPassengers(Integer quantityPassengers) {
-        this.quantityPassengers = quantityPassengers;
-    }
-
-    public Double getTotalFlight() {
-        return totalFlight;
-    }
-
-    public void setTotalFlight(Double totalFlight) {
-        this.totalFlight = totalFlight;
-    }
-
-    @Override
-    public String toString() {
-        return "Flight data:\n" + "Departure Date = " + departureDate + "\nAirplane = " + airplane + 
-                "\nDeparture City = " + departureCity + "\nArrival City = " + arrivalCity + "\nPassengers = " + 
-                passengers + "\nQuantity Passengers = " + quantityPassengers + "\nTotal Flight = " + totalFlight;
-    }
+//    public Double getTotalFlight() {
+//        return totalFlight;
+//    }
+//
+//    public void setTotalFlight(Double totalFlight) {
+//        this.totalFlight = totalFlight;
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return "Flight data:\n" + "User = "+ user.getUsername()+"\nDeparture Date = " + departureDate + 
+//                "\nAirplane = " + airplane.getType() + 
+//                "\nDeparture City = " + departureCity + "\nArrival City = " + arrivalCity + 
+//                "\nNumber of Passengers = " + passengers + "\nTotal Flight = $ " + totalFlight;
+//    }
 }

@@ -1,1 +1,15 @@
-[{"name":"Matias","lastName":"Figueroa","username":"figue","id":"de85c50c-66e9-4aaf-8f03-5ebd2dfc0d86","age":25,"password":"kobe","isAdmin":true},{"name":"Agustin","lastName":"Iribarne","username":"agusiri","id":"935a0696-58ae-4342-ab12-edcc6726e01e","age":26,"password":"primo","isAdmin":false}]
+[{"name":"Matias",
+"lastName":"Figueroa",
+"username":"figue",
+"id":"de85c50c-66e9-4aaf-8f03-5ebd2dfc0d86",
+"age":25,
+"password":"kobe",
+"isAdmin":true},
+
+{"name":"Agustin",
+"lastName":"Iribarne",
+"username":"agusiri",
+"id":"935a0696-58ae-4342-ab12-edcc6726e01e",
+"age":26,
+"password":"primo",
+"isAdmin":false}]

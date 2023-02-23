@@ -1,7 +1,9 @@
 package Model.Airplanes;
 
 import Model.Enums.*;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
+@JsonTypeName("gold")
 public class GoldFleet extends Airplane implements ICateringService {
     
     private Boolean wifiConection;
@@ -9,9 +11,9 @@ public class GoldFleet extends Airplane implements ICateringService {
     public GoldFleet() {
     }
 
-    public GoldFleet(Boolean wifiConection, String id, Double fuelCapacity, Double costPerKm, Integer 
+    public GoldFleet(Boolean wifiConection, Double fuelCapacity, Double costPerKm, Integer 
     passengerCapacity, Double maximumSpeed, EPropulsionType propulsionType, EAirplaneRate airplaneRate, EAirplaneRate fixedRate) {
-        super(id, fuelCapacity, costPerKm, passengerCapacity, maximumSpeed, propulsionType, EAirplaneRate.GOLD, EAirplaneRate.AIRPLANE);
+        super(fuelCapacity, costPerKm, passengerCapacity, maximumSpeed, propulsionType, EAirplaneRate.GOLD, EAirplaneRate.AIRPLANE);
         this.wifiConection = wifiConection;
     }
 

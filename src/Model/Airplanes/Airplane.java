@@ -1,10 +1,21 @@
 package Model.Airplanes;
 
 import Model.Enums.*;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo( // is used to specify that the type information will be stored as a property called "type"
+        use = JsonTypeInfo.Id.NAME, 
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = BronzeFleet.class, name = "bronze"),
+    @JsonSubTypes.Type(value = SilverFleet.class, name = "silver"),
+    @JsonSubTypes.Type(value = GoldFleet.class, name = "gold")
+})
 
 public abstract class Airplane {
     
-   private String id;
    private Double fuelCapacity;
    private Double costPerKm; // this value is between $150 and $300
    private Integer passengerCapacity;
@@ -12,14 +23,13 @@ public abstract class Airplane {
    private EPropulsionType propulsionType; // types: reaction, propeller and piston
    private EAirplaneRate airplaneRate; // different rate due to airplane types 
    private EAirplaneRate fixedRate; // fixed rate for each passenger 
-   private ECity city;
+   private boolean available; 
 
     public Airplane() {
     }
 
-    public Airplane(String id, Double fuelCapacity, Double costPerKm, Integer passengerCapacity, 
-            Double maximumSpeed, EPropulsionType propulsionType, EAirplaneRate airplaneRate, EAirplaneRate fixedRate) {
-        this.id = id;
+    public Airplane(Double fuelCapacity, Double costPerKm, Integer passengerCapacity, Double maximumSpeed, 
+            EPropulsionType propulsionType, EAirplaneRate airplaneRate, EAirplaneRate fixedRate) {
         this.fuelCapacity = fuelCapacity;
         this.costPerKm = costPerKm;
         this.passengerCapacity = passengerCapacity;
@@ -27,14 +37,7 @@ public abstract class Airplane {
         this.propulsionType = propulsionType;
         this.airplaneRate = airplaneRate;
         this.fixedRate = fixedRate;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        this.available = true;
     }
 
     public Double getFuelCapacity() {
@@ -93,23 +96,22 @@ public abstract class Airplane {
         this.fixedRate = fixedRate;
     }
 
-    public ECity getCity() {
-        return city;
+    public boolean isAvailable() {
+        return available;
     }
 
-    public void setCity(ECity city) {
-        this.city = city;
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     @Override
     public String toString() {
-        return "ID: " + id + 
-               ", Fuel Capacity: " + fuelCapacity + 
-               ", Cost per KM: " + costPerKm + 
-               ", Passenger Capacity: " + passengerCapacity + 
-               ", Maximum Speed: " + maximumSpeed + 
-               ", Propulsion Type: " + propulsionType +
-               ", Airplane Rate: " + airplaneRate +
-               ", Fixed Rate: " + fixedRate; 
+        return "Fuel Capacity: " + fuelCapacity + 
+               "Cost per KM: " + costPerKm + 
+               "Passenger Capacity: " + passengerCapacity + 
+               "Maximum Speed: " + maximumSpeed + 
+               "Propulsion Type: " + propulsionType +
+               "Airplane Rate: " + airplaneRate +
+               "Fixed Rate: " + fixedRate; 
     } 
 }

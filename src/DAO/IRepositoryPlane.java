@@ -5,9 +5,7 @@ import java.util.ArrayList;
 
 public interface IRepositoryPlane {
 
-    void save(Airplane airplane);
-
     ArrayList<Airplane> findAll();
 
-    Airplane findById(String id);
+    Airplane findAirplaneByType(String id);
 }

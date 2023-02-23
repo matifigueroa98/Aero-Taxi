@@ -6,4 +6,4 @@ Creating a system that allows users to hire private flights through a flight com
 In this project is taken into account:
 
 - Handling of exceptions
-- Handling of json files
+- Handling of json files using JACKSON library

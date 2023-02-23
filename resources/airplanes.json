@@ -1,1 +1,33 @@
-[{"id":"Bronze","fuelCapacity":10000.0,"costPerKm":150.0,"passengerCapacity":-2147483648,"maximumSpeed":700.0,"propulsionType":"REACTION","airplaneRate":"BRONZE","fixedRate":"AIRPLANE","city":null}]
+[
+    {
+        "type": "bronze",
+        "fuelCapacity": 10000.0,
+        "costPerKm": 150.0,
+        "passengerCapacity": 10,
+        "maximumSpeed": 700.0,
+        "propulsionType": "REACTION",
+        "airplaneRate": "BRONZE",
+        "fixedRate": "AIRPLANE"
+    },
+    {
+        "type": "silver",
+        "fuelCapacity": 20000.0,
+        "costPerKm": 225.0,
+        "passengerCapacity": 15,
+        "maximumSpeed": 800.0,
+        "propulsionType": "PROPELLER",
+        "airplaneRate": "SILVER",
+        "fixedRate": "AIRPLANE"
+    },
+    {
+        "type": "gold",
+        "wifiConection": true,
+        "fuelCapacity": 30000.0,
+        "costPerKm": 300.0,
+        "passengerCapacity": 20,
+        "maximumSpeed": 900.0,
+        "propulsionType": "PISTON",
+        "airplaneRate": "GOLD",
+        "fixedRate": "AIRPLANE"
+    }
+]

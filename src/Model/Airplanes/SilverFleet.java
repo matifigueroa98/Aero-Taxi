@@ -1,19 +1,20 @@
 package Model.Airplanes;
 
 import Model.Enums.*;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
+@JsonTypeName("silver")
 public class SilverFleet extends Airplane implements ICateringService {
 
     public SilverFleet() {
     }
 
-    public SilverFleet(String id, Double fuelCapacity, Double costPerKm, Integer passengerCapacity, Double 
-    maximumSpeed, EPropulsionType propulsionType, EAirplaneRate airplaneRate, EAirplaneRate fixedRate) {
-     super(id, fuelCapacity, costPerKm, passengerCapacity, maximumSpeed, propulsionType, EAirplaneRate.SILVER, EAirplaneRate.AIRPLANE);
+    public SilverFleet(Double fuelCapacity, Double costPerKm, Integer passengerCapacity, Double maximumSpeed, EPropulsionType propulsionType, EAirplaneRate airplaneRate, EAirplaneRate fixedRate) {
+        super(fuelCapacity, costPerKm, passengerCapacity, maximumSpeed, propulsionType, EAirplaneRate.SILVER, EAirplaneRate.AIRPLANE);
     }
 
     @Override
-    public String cateringService (){
+    public String cateringService() {
         return "catering service";
     }
 }

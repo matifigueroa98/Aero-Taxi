@@ -28,7 +28,7 @@ public class Menu {
                 manage.signUp();
                 break;
             case 3:
-                test.pickAirplane();
+                test.newFlight();
                 break;
         }
     }

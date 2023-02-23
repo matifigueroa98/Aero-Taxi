@@ -1,9 +1,7 @@
 package DAO;
 
 import Model.Airplanes.Airplane;
-import Model.Enums.ECity;
 import Model.Flight;
-import Model.User;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -13,8 +11,7 @@ public interface IRepositoryFlight {
 
     ArrayList<Flight> findAll();
 
-    Boolean update(String id, LocalDate departureDate, Airplane airplane, ECity departureCity, ECity arrivalCity,
-            Integer quantityPassengers, ArrayList<User> passengers);
+    Boolean findFlightByDate(Airplane airplane, LocalDate flightDate);
 
     Boolean delete(String id);
 
