@@ -13,7 +13,7 @@ public class GoldFleet extends Airplane implements ICateringService {
 
     public GoldFleet(Boolean wifiConection, Double fuelCapacity, Double costPerKm, Integer 
     passengerCapacity, Double maximumSpeed, EPropulsionType propulsionType, EAirplaneRate airplaneRate, EAirplaneRate fixedRate) {
-        super(fuelCapacity, costPerKm, passengerCapacity, maximumSpeed, propulsionType, EAirplaneRate.GOLD, EAirplaneRate.AIRPLANE);
+        super(fuelCapacity, costPerKm, passengerCapacity, maximumSpeed, propulsionType, EAirplaneRate.GOLD);
         this.wifiConection = wifiConection;
     }
 

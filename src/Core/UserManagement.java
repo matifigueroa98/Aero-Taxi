@@ -9,16 +9,18 @@ import java.util.UUID;
 public class UserManagement {
 
     private UserDAO userDAO;
+    private AeroTaxi aerotaxi;
     private final Scanner in = new Scanner(System.in);
 
     public UserManagement() {
         this.userDAO = new UserDAO();
+        this.aerotaxi = new AeroTaxi();
     }
 
     public void adminMenu() {
         System.out.println("----------Welcome to ADMIN MENU----------");
         System.out.println("""
-                           what do you want to do?
+                           What do you want to do?
                            1. Create an user
                            2. Modify an user
                            3. Delete an user
@@ -40,10 +42,10 @@ public class UserManagement {
         }
     }
 
-    public void userMenu() {
+    public void userMenu(User user) {
         
-        System.out.println("What would you like to do?\nPress 1 if you want to modify your user");
-        System.out.println("Press 2 if you want to delete your user");
+        System.out.println("What would you like to do?\n1. Modify your user");
+        System.out.println("2. Delete your user\n3. Buy flight");
         Integer s = in.nextInt();
         switch (s) {
             case 1:
@@ -52,15 +54,19 @@ public class UserManagement {
             case 2:
                 deleteUser();
                 break;
+            case 3: 
+                aerotaxi.newFlight(user);
+                break;              
         }
     }
 
     public void mainMenu() {
         User user = logIn();
+        
         if (user != null) { 
             System.out.println("Login successful!\n " + "Welcome back: "+ user.getLastName() + ", " + user.getName()+" !");
             if (!Boolean.TRUE.equals(user.getIsAdmin())) { // deploy different menu if its admin
-                userMenu();
+                userMenu(user);
             } else {
                 adminMenu();
             }

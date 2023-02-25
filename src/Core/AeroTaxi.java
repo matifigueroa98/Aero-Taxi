@@ -5,6 +5,7 @@ import DAO.FlightDAO;
 import Model.Airplanes.Airplane;
 import Model.Enums.ECity;
 import Model.Flight;
+import Model.User;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
@@ -16,17 +17,19 @@ public class AeroTaxi {
     private FlightDAO flightDAO;
     private AirplaneDAO airplaneDAO;
     private final Scanner in = new Scanner(System.in);
+    
     public AeroTaxi (){
         this.flightDAO = new FlightDAO ();
         this.airplaneDAO = new AirplaneDAO ();
     }
 
-    public void newFlight() { // STEPS to book a new flight
+    public void newFlight(User user) { // STEPS to book a new flight
         LocalDate departureDate; // indicate desired date
         ECity departure, arrival; // User has to choose the cities of departure and arrival
         Integer passengers; // User indicate number of passengers 
         Integer distance; // total flight distance
         Airplane airplane = null; // User has to choose an airplane
+        Double totalFlight; // Cost of the total flight
         
         departureDate = pickDate();
         airplane = showAvailableAirplaneByDateAndType(departureDate);
@@ -36,17 +39,54 @@ public class AeroTaxi {
         while (departure == arrival) { // validation so that the user doesn't choose the same destinations
             System.out.println("ERROR: You cannot select the same city as departure and arrival!\n");
             departure = departureCity();
-            arrival = arrivalCity();
-            distance = distances(departure, arrival); // calculate the distance between both destinations
-            System.out.println("The distance between " + departure.getCity() + " and " + arrival.getCity() + " is " + distance + " km.");
+            arrival = arrivalCity(); 
         }
-       
-        passengers = numberPassengers();
         
-         
-      //   last step: show cost of total flight and the user must confirm to generate the flight
-        Flight flight = new Flight (departureDate, airplane, departure, arrival, passengers);  
-        flightDAO.save(flight);
+        distance = distances(departure, arrival);
+        passengers = numberPassengers();
+        totalFlight = calculateTotalFlight(distance, passengers, airplane);
+        
+        Flight flight = new Flight (user, departureDate, airplane, departure, arrival, passengers, totalFlight);  
+        confirmFlight(flight);   
+    }
+        
+    public void changeFlight (){
+        
+    }
+    
+    public void cancelFlight (){
+        
+    }
+    
+    public void confirmFlight(Flight flight) {
+        Scanner input = new Scanner(System.in);
+        Boolean flag = false;
+
+        System.out.println(flight.toString());
+        do {
+            System.out.println("Would you like to confirm your flight? \n1.YES\n2.NO");
+            String option = input.nextLine();
+            switch (option) {
+                case "1":
+                    flightDAO.save(flight);
+                    System.out.println("The flight has been confirmed");
+                    flag = true;
+                    break;
+                case "2":
+                    System.out.println("The flight has not been confirmed");
+                    flag = true;
+                    break;
+                default:
+                    System.out.println("You entered an invalid option");
+                    break;
+            }
+        } while (flag == false);
+    }
+    
+    public Double calculateTotalFlight(Integer distance, Integer passengers, Airplane airplane) {
+        Double totalFlightCost = (distance * airplane.getCostPerKm()) + 
+                (passengers * 3500) + airplane.getAirplaneRate().getRate();
+        return totalFlightCost;
     }
     
     public Airplane showAvailableAirplaneByDateAndType(LocalDate departureDate) {
@@ -63,7 +103,7 @@ public class AeroTaxi {
                     System.out.println("THE AIRPLANE YOU CHOSE IS NOT AVAILABLE ON THE SPECIFIED DATE");
                     airplane = null;
                 } else {
-                    System.out.println("Airplane is available on the specified date");
+                    System.out.println("Airplane is AVAILABLE on the specified date\n");
                 }
             } else {
                 System.out.println("The airplane you selected is not available.");
@@ -185,24 +225,4 @@ public class AeroTaxi {
         }
         return distance;
     }
-
-    public void confirmFlight (){
-        
-    }
-    
-    public void changeFlight (){
-        
-    }
-    
-    public void cancelFlight (){
-        
-    }
-    
-    /*public Double totalFlight (){ // MODIFICAR
-        EAirplaneRate fixedRate = null;
-       
-       Double costFlight = (numberPassengers() * 3500) + fixedRate.getRate(); // DEPENDE EL AVION QUE ELIJA DEBO HACER LA CUENTA
-       //distances (metodo en flight)*costokm + cantpassengers * 3500 + fixed rate
-       return costFlight;
-     }*/
 }

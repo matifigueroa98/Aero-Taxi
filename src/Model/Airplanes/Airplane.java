@@ -22,22 +22,18 @@ public abstract class Airplane {
    private Double maximumSpeed; // in km/h
    private EPropulsionType propulsionType; // types: reaction, propeller and piston
    private EAirplaneRate airplaneRate; // different rate due to airplane types 
-   private EAirplaneRate fixedRate; // fixed rate for each passenger 
-   private boolean available; 
 
     public Airplane() {
     }
 
     public Airplane(Double fuelCapacity, Double costPerKm, Integer passengerCapacity, Double maximumSpeed, 
-            EPropulsionType propulsionType, EAirplaneRate airplaneRate, EAirplaneRate fixedRate) {
+            EPropulsionType propulsionType, EAirplaneRate airplaneRate) {
         this.fuelCapacity = fuelCapacity;
         this.costPerKm = costPerKm;
         this.passengerCapacity = passengerCapacity;
         this.maximumSpeed = maximumSpeed;
         this.propulsionType = propulsionType;
         this.airplaneRate = airplaneRate;
-        this.fixedRate = fixedRate;
-        this.available = true;
     }
 
     public Double getFuelCapacity() {
@@ -88,22 +84,6 @@ public abstract class Airplane {
         this.airplaneRate = airplaneRate;
     }
 
-    public EAirplaneRate getFixedRate() {
-        return fixedRate;
-    }
-
-    public void setFixedRate(EAirplaneRate fixedRate) {
-        this.fixedRate = fixedRate;
-    }
-
-    public boolean isAvailable() {
-        return available;
-    }
-
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
-
     @Override
     public String toString() {
         return "Fuel Capacity: " + fuelCapacity + 
@@ -111,7 +91,6 @@ public abstract class Airplane {
                "Passenger Capacity: " + passengerCapacity + 
                "Maximum Speed: " + maximumSpeed + 
                "Propulsion Type: " + propulsionType +
-               "Airplane Rate: " + airplaneRate +
-               "Fixed Rate: " + fixedRate; 
+               "Airplane Rate: " + airplaneRate;
     } 
 }

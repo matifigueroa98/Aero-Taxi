@@ -3,6 +3,7 @@ package Model;
 import Model.Enums.*;
 import Model.Airplanes.Airplane;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class Flight {
@@ -13,24 +14,24 @@ public class Flight {
     private Airplane airplane; // the passenger has to choose an airplane
     private ECity departureCity; // departure time is when a plane leaves the gate
     private ECity arrivalCity; // arrival time is when the plane pulls up to the gate
-//    private User user;
+    private User user;
     private Integer passengers;
-//    private Double totalFlight; // total cost of the flight 
+    private Double totalFlight; // total cost of the flight 
 
     public Flight() {
     }
 
-    public Flight(LocalDate departureDate, Airplane airplane, ECity departureCity, ECity arrivalCity, 
-             Integer passengers) {
+    public Flight(User user, LocalDate departureDate, Airplane airplane, ECity departureCity, ECity arrivalCity, 
+             Integer passengers, Double totalFlight) {
         this.uuid = UUID.randomUUID();
         this.id = uuid.getMostSignificantBits();
         this.departureDate = departureDate;
         this.airplane = airplane;
         this.departureCity = departureCity;
         this.arrivalCity = arrivalCity;
-       // this.user = user;
+        this.user = user;
         this.passengers = passengers;
-      //  this.totalFlight = totalFlight;
+        this.totalFlight = totalFlight;
     }
 
     public long getId() {
@@ -41,13 +42,13 @@ public class Flight {
         this.id = id;
     }
 
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public LocalDate getDepartureDate() {
         return departureDate;
@@ -89,19 +90,21 @@ public class Flight {
         this.passengers = passengers;
     }
 
-//    public Double getTotalFlight() {
-//        return totalFlight;
-//    }
-//
-//    public void setTotalFlight(Double totalFlight) {
-//        this.totalFlight = totalFlight;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Flight data:\n" + "User = "+ user.getUsername()+"\nDeparture Date = " + departureDate + 
-//                "\nAirplane = " + airplane.getType() + 
-//                "\nDeparture City = " + departureCity + "\nArrival City = " + arrivalCity + 
-//                "\nNumber of Passengers = " + passengers + "\nTotal Flight = $ " + totalFlight;
-//    }
+    public Double getTotalFlight() {
+        return totalFlight;
+    }
+
+    public void setTotalFlight(Double totalFlight) {
+        this.totalFlight = totalFlight;
+    }
+
+    @Override
+    public String toString() {
+        return "--------------------FLIGHT DATA--------------------\n" + "Flight ID = "+ getId() +
+                "\nUsername = "+ user.getUsername()+"\nDeparture Date = " 
+                + departureDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + 
+                "\nAirplane = " + airplane.getAirplaneRate() + 
+                "\nDeparture City = " + departureCity + "\nArrival City = " + arrivalCity + 
+                "\nNumber of Passengers = " + passengers + "\nTotal Flight = $ " + totalFlight+"\n";      
+    }
 }

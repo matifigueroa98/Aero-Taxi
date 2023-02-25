@@ -6,8 +6,7 @@
         "passengerCapacity": 10,
         "maximumSpeed": 700.0,
         "propulsionType": "REACTION",
-        "airplaneRate": "BRONZE",
-        "fixedRate": "AIRPLANE"
+        "airplaneRate": "BRONZE"
     },
     {
         "type": "silver",
@@ -16,8 +15,7 @@
         "passengerCapacity": 15,
         "maximumSpeed": 800.0,
         "propulsionType": "PROPELLER",
-        "airplaneRate": "SILVER",
-        "fixedRate": "AIRPLANE"
+        "airplaneRate": "SILVER"
     },
     {
         "type": "gold",
@@ -27,7 +25,6 @@
         "passengerCapacity": 20,
         "maximumSpeed": 900.0,
         "propulsionType": "PISTON",
-        "airplaneRate": "GOLD",
-        "fixedRate": "AIRPLANE"
+        "airplaneRate": "GOLD"
     }
 ]
