@@ -9,12 +9,12 @@ public interface IRepositoryFlight {
 
     void save(Flight flight);
 
-    ArrayList<Flight> findAll();
+    ArrayList<Flight> findAll(LocalDate flightDate);
 
     Boolean findFlightByDate(Airplane airplane, LocalDate flightDate);
 
-    Boolean delete(String id);
+    Boolean delete(Long id);
 
-    Flight findById(String id);
+    Flight findById(Long id);
 
 }

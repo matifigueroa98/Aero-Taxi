@@ -1,5 +1,6 @@
 package DAO;
 
+import Model.Flight;
 import Model.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +24,24 @@ public class UserDAO implements IRepository {
         try {
             users.add(user);
             objMapper.writeValue(file, users); // save user to json file
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void saveTotalSpent(User user, Flight flight) {
+        retrieveData();
+        try {
+            User userToUpdate = null;
+            for (User u : users) {
+                if (u.getId().equals(user.getId())) {
+                    userToUpdate = u;
+                }
+            }
+            double newTotalSpent = userToUpdate.getTotalSpent() + flight.getTotalFlight();
+            userToUpdate.setTotalSpent(newTotalSpent);
+             
+            objMapper.writeValue(file, users); // save total spent to json file
         } catch (IOException e) {
             e.printStackTrace();
         }

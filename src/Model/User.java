@@ -11,6 +11,8 @@ public class User {
     private Integer age;
     private String password;
     private boolean isAdmin; // primitive data is placed because otherwise the library is broken
+    private double totalSpent;
+    private String bestAirplaneRate;
     
     public User (){
     }
@@ -23,6 +25,8 @@ public class User {
         this.age = age;
         this.password = password;
         this.isAdmin = isAdmin;
+        this.totalSpent = 0.0;
+        this.bestAirplaneRate = "NONE";
     }
 
     public String getName() {
@@ -81,9 +85,27 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
+    public double getTotalSpent() {
+        return totalSpent;
+    }
+
+    public void setTotalSpent(double totalSpent) {
+        this.totalSpent = totalSpent;
+    }
+
+    public String getBestAirplaneRate() {
+        return bestAirplaneRate;
+    }
+
+    public void setBestAirplaneRate (String bestAirplaneRate) {
+        this.bestAirplaneRate = bestAirplaneRate;
+    }
+
     @Override
     public String toString() {
         return "Name: " + name + "\nLast name: " + lastName + "\nUsername: " + username + "\nID: " + id
-                + "\nAge: "+ age+ "\nAdmin: " + isAdmin+"\n----------------------------------";
+                + "\nAge: "+ age+ "\nAdmin: " + isAdmin + 
+                "\nBest Airplane: " + bestAirplaneRate +"\nTOTAL SPENT: " + totalSpent+
+                "\n----------------------------------";
     }
 }

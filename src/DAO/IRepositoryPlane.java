@@ -8,4 +8,7 @@ public interface IRepositoryPlane {
     ArrayList<Airplane> findAll();
 
     Airplane findAirplaneByType(String id);
+    
+    Boolean availableCapacityFleet (String airplaneRate, Integer passengers);
+    
 }

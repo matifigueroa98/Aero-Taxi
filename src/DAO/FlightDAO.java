@@ -30,10 +30,12 @@ public class FlightDAO implements IRepositoryFlight {
     }
 
     @Override
-    public ArrayList<Flight> findAll() {
+    public ArrayList<Flight> findAll(LocalDate flightDate) {
        retrieveData();
         for (Flight flight : flights) {
-            System.out.println(flight.toString());
+            if (flight.getDepartureDate().equals(flightDate)){
+               System.out.println(flight.toString()); 
+            }
         }
         return flights;    
     }
@@ -52,17 +54,36 @@ public class FlightDAO implements IRepositoryFlight {
     }
 
     @Override
-    public Boolean delete(String id) {
-
-        return null;
-
+    public Boolean delete(Long id) {
+        retrieveData();
+        Flight flightToDelete = findById(id);
+        Boolean success = false;
+        if (flightToDelete != null) {
+            LocalDate today = LocalDate.now();
+            LocalDate departureDate = flightToDelete.getDepartureDate();
+            if (departureDate.isAfter(today.plusDays(1))) {// cannot cancel a flight with less than 24 hours
+                flights.remove(flightToDelete);
+                success = true;
+                try {
+                    objMapper.writeValue(file, flights);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return success;
     }
 
     @Override
-    public Flight findById(String id) {
-     
-        return null;
-     
+    public Flight findById(Long id) {
+        retrieveData();
+        Flight toFind = null;
+        for (Flight flight : flights) {
+            if (flight.getId() == id) {
+                toFind = flight;
+            }
+        }
+        return toFind;
     }
     
     private void retrieveData() { // Uploading and reading the flights.json file 

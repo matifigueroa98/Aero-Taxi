@@ -37,6 +37,19 @@ public class AirplaneDAO implements IRepositoryPlane {
         }
         return toFind;
     }
+     
+    @Override
+    public Boolean availableCapacityFleet (String airplaneRate, Integer passengers) { 
+        retrieveData();
+        Boolean available = false;
+        for (Airplane airplane : airplanes) {
+            if (airplane.getClass().getAnnotation(JsonTypeName.class).value().equals(airplaneRate) 
+                && airplane.getPassengerCapacity() >= passengers) {
+                available = true;
+            }
+        }
+        return available;
+    }
     
     private void retrieveData() { // Uploading and reading the airplanes.json file 
         try {

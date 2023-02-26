@@ -4,20 +4,18 @@ import javax.swing.JOptionPane;
 
 public class Menu {
 
-    public void systemMenu() { // dropping down the menu
+    public void runSystem() { // dropping down the menu
         Integer menu;
         JOptionPane.showMessageDialog(null, """
                                           Welcome to the AeroTaxi Company! What would you like?
                                           
                                           1. Log in
                                           2. Create an user
-                                          3. TEST
-                                          4. EXIT
+                                          3. EXIT
                                           
                                    """);
 
-        UserManagement manage = new UserManagement(); // TEST PURPOSE
-        AeroTaxi test = new AeroTaxi (); // TEST PURPOSE
+        UserManagement manage = new UserManagement();
 
         menu = Integer.parseInt(JOptionPane.showInputDialog("Choose an option"));
         switch (menu) {
@@ -28,7 +26,6 @@ public class Menu {
                 manage.signUp();
                 break;
             case 3:
-                manage.mainMenu();
                 break;
         }
     }

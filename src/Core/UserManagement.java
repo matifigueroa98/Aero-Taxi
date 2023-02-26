@@ -2,6 +2,8 @@ package Core;
 
 import DAO.*;
 import Model.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.UUID;
@@ -10,21 +12,26 @@ public class UserManagement {
 
     private UserDAO userDAO;
     private AeroTaxi aerotaxi;
+    private FlightDAO flightDAO;
     private final Scanner in = new Scanner(System.in);
 
     public UserManagement() {
         this.userDAO = new UserDAO();
         this.aerotaxi = new AeroTaxi();
+        this.flightDAO = new FlightDAO();
     }
 
-    public void adminMenu() {
+    public void adminMenu(User user) {
         System.out.println("----------Welcome to ADMIN MENU----------");
         System.out.println("""
                            What do you want to do?
                            1. Create an user
                            2. Modify an user
                            3. Delete an user
-                           4. User List""");
+                           4. User List
+                           5. New flight
+                           6. Cancel flight
+                           7. Flight List""");
         Integer a = in.nextInt();
         switch (a) {
             case 1:
@@ -39,13 +46,27 @@ public class UserManagement {
             case 4:
                 userDAO.findAll();
                 break;
+            case 5:
+                aerotaxi.newFlight(user);
+                break;
+            case 6:
+                aerotaxi.cancelFlight();
+                break; 
+            case 7:
+                flightsByDate();             
+                break;
         }
+    }
+    
+    public void flightsByDate (){ // list all scheduled flights on a given date
+        LocalDate departureDate = aerotaxi.pickDate();
+        flightDAO.findAll(departureDate);
     }
 
     public void userMenu(User user) {
         
         System.out.println("What would you like to do?\n1. Modify your user");
-        System.out.println("2. Delete your user\n3. Buy flight");
+        System.out.println("2. Delete your user\n3. Buy a flight\n4. Cancel a flight");
         Integer s = in.nextInt();
         switch (s) {
             case 1:
@@ -56,7 +77,10 @@ public class UserManagement {
                 break;
             case 3: 
                 aerotaxi.newFlight(user);
-                break;              
+                break; 
+            case 4: 
+                aerotaxi.cancelFlight();
+                break; 
         }
     }
 
@@ -68,7 +92,7 @@ public class UserManagement {
             if (!Boolean.TRUE.equals(user.getIsAdmin())) { // deploy different menu if its admin
                 userMenu(user);
             } else {
-                adminMenu();
+                adminMenu(user);
             }
         } else {
             System.out.println("The user does not match in the system. Would you like to add a new one?");

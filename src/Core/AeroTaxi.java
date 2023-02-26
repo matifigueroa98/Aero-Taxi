@@ -2,6 +2,7 @@ package Core;
 
 import DAO.AirplaneDAO;
 import DAO.FlightDAO;
+import DAO.UserDAO;
 import Model.Airplanes.Airplane;
 import Model.Enums.ECity;
 import Model.Flight;
@@ -16,11 +17,13 @@ public class AeroTaxi {
     // the AeroTaxi Company has 3 different types of planes (gold, silver and bronze)
     private FlightDAO flightDAO;
     private AirplaneDAO airplaneDAO;
+    private UserDAO userDAO;
     private final Scanner in = new Scanner(System.in);
     
     public AeroTaxi (){
         this.flightDAO = new FlightDAO ();
         this.airplaneDAO = new AirplaneDAO ();
+        this.userDAO = new UserDAO ();
     }
 
     public void newFlight(User user) { // STEPS to book a new flight
@@ -30,6 +33,7 @@ public class AeroTaxi {
         Integer distance; // total flight distance
         Airplane airplane = null; // User has to choose an airplane
         Double totalFlight; // Cost of the total flight
+        Boolean availableCapacity;
         
         departureDate = pickDate();
         airplane = showAvailableAirplaneByDateAndType(departureDate);
@@ -39,23 +43,31 @@ public class AeroTaxi {
         while (departure == arrival) { // validation so that the user doesn't choose the same destinations
             System.out.println("ERROR: You cannot select the same city as departure and arrival!\n");
             departure = departureCity();
-            arrival = arrivalCity(); 
+            arrival = arrivalCity();
         }
-        
+
         distance = distances(departure, arrival);
         passengers = numberPassengers();
-        totalFlight = calculateTotalFlight(distance, passengers, airplane);
-        
-        Flight flight = new Flight (user, departureDate, airplane, departure, arrival, passengers, totalFlight);  
-        confirmFlight(flight);   
-    }
-        
-    public void changeFlight (){
-        
+        availableCapacity = availableFleet(passengers);
+        if (availableCapacity) {
+            totalFlight = calculateTotalFlight(distance, passengers, airplane);
+            Flight flight = new Flight(user, departureDate, airplane, departure, arrival, passengers, totalFlight);
+            confirmFlight(flight);
+        } 
     }
     
     public void cancelFlight (){
-        
+        long id;
+
+        System.out.print("Enter the ID of the flight you want to delete: ");
+        id = in.nextLong();
+        Boolean deleteFlight = flightDAO.delete(id);
+        if (deleteFlight) {
+            System.out.println("The Flight ID = " + id + " has been deleted successfully.");
+        } else {
+            System.out.println("The Flight ID = " + id + " could not be found or your flight may not"
+                    + " be canceled the day before the flight on the date.");
+        }
     }
     
     public void confirmFlight(Flight flight) {
@@ -70,6 +82,8 @@ public class AeroTaxi {
                 case "1":
                     flightDAO.save(flight);
                     System.out.println("The flight has been confirmed");
+                    User user = flight.getUser(); // getting user 
+                    userDAO.saveTotalSpent(user, flight); // saving total spent by user
                     flag = true;
                     break;
                 case "2":
@@ -121,7 +135,22 @@ public class AeroTaxi {
             System.out.print("Please, try again: ");
             airplaneType = scan.nextLine();
         }
+        
         return airplaneType;
+    }
+    
+    public Boolean availableFleet(Integer passengersNumber) {
+        String airplaneType;
+        Boolean flag;
+        System.out.println("CONFIRM your airplane type\n");
+        airplaneType = pickAirplane();
+        if (airplaneDAO.availableCapacityFleet(airplaneType, passengersNumber)) {
+            flag = true;
+        } else {
+            System.out.println("We don't have airplanes available with that passenger capacity.");
+            flag = false;
+        }
+        return flag;
     }
 
     public Integer numberPassengers() { // validating passengers
@@ -134,6 +163,7 @@ public class AeroTaxi {
                 passengersNumber = in.nextInt();
                 if (passengersNumber <= 0) {
                     System.out.println("Invalid input. The number of passengers must be positive.");
+                    validation = true;
                 } else {
                     validation = true;
                 }
