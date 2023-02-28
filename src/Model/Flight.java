@@ -2,6 +2,7 @@ package Model;
 
 import Model.Enums.*;
 import Model.Airplanes.Airplane;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -14,6 +15,7 @@ public class Flight {
     private Airplane airplane; // the passenger has to choose an airplane
     private ECity departureCity; // departure time is when a plane leaves the gate
     private ECity arrivalCity; // arrival time is when the plane pulls up to the gate
+    @JsonIgnoreProperties (value = {"password", "isAdmin", "age", "totalSpent","bestAirplaneRate"})
     private User user;
     private Integer passengers;
     private Double totalFlight; // total cost of the flight 

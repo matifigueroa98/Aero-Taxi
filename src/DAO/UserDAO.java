@@ -40,8 +40,34 @@ public class UserDAO implements IRepository {
             }
             double newTotalSpent = userToUpdate.getTotalSpent() + flight.getTotalFlight();
             userToUpdate.setTotalSpent(newTotalSpent);
-             
+            
+            String currentBestAirplaneRate = userToUpdate.getBestAirplaneRate();
+            String flightAirplaneRate = flight.getAirplane().getAirplaneRate().toString();
+            
+            if (currentBestAirplaneRate.equals("NONE") || (flightAirplaneRate.equals("BRONZE") && !currentBestAirplaneRate.equals("SILVER"))
+                    || (flightAirplaneRate.equals("SILVER") && currentBestAirplaneRate.equals("GOLD"))) {
+                userToUpdate.setBestAirplaneRate(flightAirplaneRate);
+            }
+            
             objMapper.writeValue(file, users); // save total spent to json file
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void deleteTotalSpent(User user, Flight flight) {
+        retrieveData();
+        try {
+            User userToUpdate = null;
+            for (User u : users) {
+                if (u.getId().equals(user.getId())) {
+                    userToUpdate = u;
+                }
+            }
+            double newTotalSpent = userToUpdate.getTotalSpent() - flight.getTotalFlight();
+            userToUpdate.setTotalSpent(newTotalSpent);
+             
+            objMapper.writeValue(file, users); // update total spent to json file
         } catch (IOException e) {
             e.printStackTrace();
         }

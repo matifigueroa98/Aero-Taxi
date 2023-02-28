@@ -56,16 +56,25 @@ public class AeroTaxi {
         } 
     }
     
-    public void cancelFlight (){
+    public void cancelFlight() {
         long id;
-
+        
         System.out.print("Enter the ID of the flight you want to delete: ");
         id = in.nextLong();
+        
+        Flight flight = flightDAO.findById(id);
+        if (flight != null) {
+            User user = flight.getUser();
+            userDAO.deleteTotalSpent(user, flight);
+        } else {
+            System.out.println("The Flight ID = " + id + " could not be found.");
+        }
+        
         Boolean deleteFlight = flightDAO.delete(id);
         if (deleteFlight) {
             System.out.println("The Flight ID = " + id + " has been deleted successfully.");
         } else {
-            System.out.println("The Flight ID = " + id + " could not be found or your flight may not"
+            System.out.println("The Flight ID = " + id + " may not"
                     + " be canceled the day before the flight on the date.");
         }
     }

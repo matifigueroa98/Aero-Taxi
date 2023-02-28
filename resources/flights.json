@@ -1,1 +1,137 @@
-[]
+[
+    {
+        "id": 3616180743094684675,
+        "departureDate": [
+            2023,
+            7,
+            10
+        ],
+        "airplane": {
+            "type": "bronze",
+            "fuelCapacity": 10000.0,
+            "costPerKm": 150.0,
+            "passengerCapacity": 10,
+            "maximumSpeed": 700.0,
+            "propulsionType": "REACTION",
+            "airplaneRate": "BRONZE"
+        },
+        "departureCity": "STGO",
+        "arrivalCity": "BSAS",
+        "user": {
+            "name": "agus",
+            "lastName": "iribarne",
+            "username": "agus",
+            "id": "6e2747e5-0ba6-491b-a3be-bd92013bda90"
+        },
+        "passengers": 4,
+        "totalFlight": 227000.0
+    },
+    {
+        "id": 6240817441370426157,
+        "departureDate": [
+            2023,
+            12,
+            10
+        ],
+        "airplane": {
+            "type": "silver",
+            "fuelCapacity": 20000.0,
+            "costPerKm": 225.0,
+            "passengerCapacity": 15,
+            "maximumSpeed": 800.0,
+            "propulsionType": "PROPELLER",
+            "airplaneRate": "SILVER"
+        },
+        "departureCity": "MONT",
+        "arrivalCity": "BSAS",
+        "user": {
+            "name": "Matias",
+            "lastName": "Figueroa",
+            "username": "figue",
+            "id": "de85c50c-66e9-4aaf-8f03-5ebd2dfc0d86"
+        },
+        "passengers": 2,
+        "totalFlight": 224750.0
+    },
+    {
+        "id": -5034719449268796106,
+        "departureDate": [
+            2023,
+            8,
+            11
+        ],
+        "airplane": {
+            "type": "bronze",
+            "fuelCapacity": 10000.0,
+            "costPerKm": 150.0,
+            "passengerCapacity": 10,
+            "maximumSpeed": 700.0,
+            "propulsionType": "REACTION",
+            "airplaneRate": "BRONZE"
+        },
+        "departureCity": "STGO",
+        "arrivalCity": "BSAS",
+        "user": {
+            "name": "Matias",
+            "lastName": "Figueroa",
+            "username": "figue",
+            "id": "de85c50c-66e9-4aaf-8f03-5ebd2dfc0d86"
+        },
+        "passengers": 4,
+        "totalFlight": 227000.0
+    },
+    {
+        "id": 9098387879520258140,
+        "departureDate": [
+            2023,
+            10,
+            23
+        ],
+        "airplane": {
+            "type": "gold",
+            "fuelCapacity": 30000.0,
+            "costPerKm": 300.0,
+            "passengerCapacity": 20,
+            "maximumSpeed": 900.0,
+            "propulsionType": "PISTON",
+            "airplaneRate": "GOLD"
+        },
+        "departureCity": "MONT",
+        "arrivalCity": "BSAS",
+        "user": {
+            "name": "Matias",
+            "lastName": "Figueroa",
+            "username": "figue",
+            "id": "de85c50c-66e9-4aaf-8f03-5ebd2dfc0d86"
+        },
+        "passengers": 5,
+        "totalFlight": 308500.0
+    },
+    {
+        "id": 2075217412883631841,
+        "departureDate": [
+            2023,
+            5,
+            6
+        ],
+        "airplane": {
+            "type": "silver",
+            "fuelCapacity": 20000.0,
+            "costPerKm": 225.0,
+            "passengerCapacity": 15,
+            "maximumSpeed": 800.0,
+            "propulsionType": "PROPELLER",
+            "airplaneRate": "SILVER"
+        },
+        "departureCity": "STGO",
+        "arrivalCity": "MONT",
+        "user": {
+            "name": "agus",
+            "lastName": "iribarne",
+            "username": "agus",
+            "id": "6e2747e5-0ba6-491b-a3be-bd92013bda90"
+        },
+        "passengers": 5,
+        "totalFlight": 494000.0
+    }
+]

@@ -7,18 +7,18 @@
         "age": 25,
         "password": "kobe",
         "isAdmin": true,
-        "totalSpent": 387750.0,
-        "bestAirplaneRate": "NONE"
+        "totalSpent": 760250.0,
+        "bestAirplaneRate": "SILVER"
     },
     {
-        "name": "Agustin",
-        "lastName": "Iribarne",
-        "username": "agusiri",
-        "id": "935a0696-58ae-4342-ab12-edcc6726e01e",
+        "name": "agus",
+        "lastName": "iribarne",
+        "username": "agus",
+        "id": "6e2747e5-0ba6-491b-a3be-bd92013bda90",
         "age": 26,
         "password": "primo",
         "isAdmin": false,
-        "totalSpent": 0.0,
-        "bestAirplaneRate": "NONE"
+        "totalSpent": 721000.0,
+        "bestAirplaneRate": "SILVER"
     }
 ]
